@@ -9,5 +9,6 @@ import { RouterOutlet } from '@angular/router';
   styleUrl: './app.component.scss'
 })
 export class AppComponent {
-  title = 'angular-jenkins-cicd';
+  title = 'We are Group 17';
+  subtitle = 'DevOps: Deploying a sample application to the cloud using Git, Docker and Jenkins'
 }
