@@ -17,14 +17,12 @@ pipeline {
                 script {
                     // Set the working directory to your Angular project directory
                     dir('path/to/your/angular/app') {
-                        // Install Angular CLI
-                        sh 'npm install -g @angular/cli'
                         
                         // Install project dependencies
-                        sh 'npm install'
+                        sh 'docker build -t my-angular-app .'
 
                         // Build Angular app
-                        sh 'ng build'
+                        sh 'docker run -d -p 8080:80 my-angular-app'
                     }
                 }
             }
@@ -41,12 +39,9 @@ pipeline {
         stage('Deploy') {
             steps {
                 script {
-                    // Log in to Docker registry
-                    withCredentials([usernamePassword(credentialsId: "${DOCKER_REGISTRY_CREDS}", passwordVariable: 'DOCKER_PASSWORD', usernameVariable: 'DOCKER_USERNAME')]) {
-                        sh "echo $DOCKER_PASSWORD | docker login -u $DOCKER_USERNAME --password-stdin docker.io"
-                        
-                        // Push Docker image
-                        sh "docker push $ANGULAR_IMAGE"
+
+                    	sh 'docker run -d -p 8080:80 my-angular-app'
+
                     }
                 }
             }
