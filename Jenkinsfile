@@ -29,7 +29,28 @@ pipeline {
                 }
             }
         }
-        // Add other stages as needed (e.g., Test, Deploy)
+        stage('Test') {
+            agent any
+            steps {
+                script {
+                    // Add testing steps if you have any
+                    echo 'Testing Angular app'
+                }
+            }
+        }
+        stage('Deploy') {
+            steps {
+                script {
+                    // Log in to Docker registry
+                    withCredentials([usernamePassword(credentialsId: "${DOCKER_REGISTRY_CREDS}", passwordVariable: 'DOCKER_PASSWORD', usernameVariable: 'DOCKER_USERNAME')]) {
+                        sh "echo $DOCKER_PASSWORD | docker login -u $DOCKER_USERNAME --password-stdin docker.io"
+                        
+                        // Push Docker image
+                        sh "docker push $ANGULAR_IMAGE"
+                    }
+                }
+            }
+        }
     }
     post {
         always {
