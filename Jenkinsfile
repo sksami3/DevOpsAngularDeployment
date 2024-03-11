@@ -1,10 +1,5 @@
 pipeline {
-    agent {
-        docker {
-            image 'node:latest'
-            args '-u root' // Optional: Run Docker container as root
-        }
-    }
+    agent any
 
     environment {
         ANGULAR_IMAGE = 'my-angular-app'
@@ -12,38 +7,48 @@ pipeline {
 
     stages {
         stage('Build') {
+            agent {
+                docker {
+                    image 'node:latest'
+                    args '-u root' // Optional: Run Docker container as root
+                }
+            }
             steps {
                 script {
-                    // Install Node.js and Angular CLI
+                    // Install Angular CLI
                     sh 'npm install -g @angular/cli'
                     
                     // Build Angular app
                     sh 'ng build --prod'
-                    
-                    // Build Docker image for Angular app
-                    sh "docker build -t $ANGULAR_IMAGE ."
                 }
             }
         }
         stage('Test') {
+            agent any
             steps {
-                // You can include any testing commands here if you have Angular tests
-                // For example: ng test
-                // sh 'ng test'
-                echo 'Testing Angular app'
+                script {
+                    // Run tests if you have any
+                    echo 'Testing Angular app'
+                }
             }
         }
         stage('Deploy') {
             steps {
-                withCredentials([usernamePassword(credentialsId: "${DOCKER_REGISTRY_CREDS}", passwordVariable: 'DOCKER_PASSWORD', usernameVariable: 'DOCKER_USERNAME')]) {
-                    sh "echo $DOCKER_PASSWORD | docker login -u $DOCKER_USERNAME --password-stdin docker.io"
-                    sh "docker push $ANGULAR_IMAGE"
+                script {
+                    // Log in to Docker registry
+                    withCredentials([usernamePassword(credentialsId: "${DOCKER_REGISTRY_CREDS}", passwordVariable: 'DOCKER_PASSWORD', usernameVariable: 'DOCKER_USERNAME')]) {
+                        sh "echo $DOCKER_PASSWORD | docker login -u $DOCKER_USERNAME --password-stdin docker.io"
+                        
+                        // Push Docker image
+                        sh "docker push $ANGULAR_IMAGE"
+                    }
                 }
             }
         }
     }
     post {
         always {
+            // Log out of Docker registry
             sh 'docker logout'
         }
     }
