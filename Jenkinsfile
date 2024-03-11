@@ -17,7 +17,12 @@ pipeline {
                 script {
                     // Set the working directory to your Angular project directory
                     //dir('path/to/your/angular/app') {
-                        sh 'sudo systemctl start docker'
+                    // Install Docker inside the Jenkins container
+                    sh 'apt-get update'
+                    sh 'apt-get install -y docker.io'
+
+                    // Build Angular app
+                    sh 'docker build -t my-angular-app .'
                         // Install project dependencies
                         sh 'docker build -t my-angular-app .'
 
