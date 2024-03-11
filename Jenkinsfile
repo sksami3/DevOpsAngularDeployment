@@ -16,14 +16,14 @@ pipeline {
             steps {
                 script {
                     // Set the working directory to your Angular project directory
-                    dir('path/to/your/angular/app') {
+                    //dir('path/to/your/angular/app') {
                         
                         // Install project dependencies
                         sh 'docker build -t my-angular-app .'
 
                         // Build Angular app
                         sh 'docker run -d -p 8080:80 my-angular-app'
-                    }
+                    //}
                 }
             }
         }
