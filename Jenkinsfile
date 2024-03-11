@@ -25,6 +25,7 @@ pipeline {
                 // You can include any testing commands here if you have Angular tests
                 // For example: ng test
                 // sh 'ng test'
+                echo 'Testing Angular app'
             }
         }
         stage('Deploy') {
