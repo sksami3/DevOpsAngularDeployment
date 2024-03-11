@@ -9,9 +9,9 @@ pipeline {
         stage('Build') {
             agent {
                 docker {
-                    image 'node:20' // Use a specific LTS version of Node.js
-                    args '-u root' // Optional: Run Docker container as root
-                }
+        image 'docker:dind'
+        args '--privileged -u root'
+    }
             }
             steps {
                 script {
