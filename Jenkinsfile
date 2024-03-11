@@ -1,5 +1,10 @@
 pipeline {
-    agent any
+    agent {
+        docker {
+            image 'node:latest'
+            args '-u root' // Optional: Run Docker container as root
+        }
+    }
 
     environment {
         ANGULAR_IMAGE = 'my-angular-app'
