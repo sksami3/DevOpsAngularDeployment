@@ -30,7 +30,7 @@ pipeline {
     stage('Deploy') {
       steps {
         withCredentials([usernamePassword(credentialsId: "${DOCKER_REGISTRY_CREDS}", passwordVariable: '123456789', usernameVariable: 'sksami3')]) {
-          sh "echo \$DOCKER_PASSWORD | docker login -u \$DOCKER_USERNAME --password-stdin docker.io"
+          sh "echo \$123456789 | docker login -u \$sksami3 --123456789-stdin docker.io"
           sh 'docker push $ANGULAR_IMAGE'
         }
       }
