@@ -19,10 +19,10 @@ pipeline {
                     dir('path/to/your/angular/app') {
                         
                         // Install project dependencies
-                        sh 'npm install'
+                        sh 'docker build -t my-angular-app .'
 
                         // Build Angular app
-                        sh 'ng build --prod'
+                        sh 'docker run -d -p 8080:80 my-angular-app'
                     }
                 }
             }
@@ -39,9 +39,11 @@ pipeline {
         stage('Deploy') {
             steps {
                 script {
-                    // Run Docker container based on the built image
-                    sh 'docker run -d -p 8080:80 my-angular-app'
-                }
+
+                    	sh 'docker run -d -p 8080:80 my-angular-app'
+
+                    }
+                
             }
         }
     }
