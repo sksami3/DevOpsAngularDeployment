@@ -24,7 +24,7 @@ pipeline {
                         sh 'npm install'
 
                         // Build Angular app
-                        sh 'ng build --prod'
+                        sh 'ng build'
                     }
                 }
             }
