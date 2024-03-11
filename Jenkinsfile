@@ -9,7 +9,7 @@ pipeline {
         stage('Build') {
             agent {
                 docker {
-                    image 'node:14' // Use a specific LTS version of Node.js
+                    image 'node:20' // Use a specific LTS version of Node.js
                     args '-u root' // Optional: Run Docker container as root
                 }
             }
