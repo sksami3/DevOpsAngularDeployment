@@ -7,12 +7,12 @@ pipeline {
 
     stages {
         stage('Build') {
-            agent {
-                docker {
-        image 'docker:dind'
-        args '--privileged -u root'
-    }
-            }
+            // agent {
+            //     docker {
+            //         image 'docker:dind'
+            //         args '--privileged -u root'
+            //     }
+            // }
             steps {
                 script {
                     // Set the working directory to your Angular project directory
@@ -28,7 +28,7 @@ pipeline {
 
                         // Build Angular app
                         sh 'docker run -d -p 8080:80 my-angular-app'
-                    //}
+                //}
                 }
             }
         }
@@ -44,11 +44,8 @@ pipeline {
         stage('Deploy') {
             steps {
                 script {
-
-                    	sh 'docker run -d -p 8080:80 my-angular-app'
-
-                    }
-                
+                        sh 'docker run -d -p 8080:80 my-angular-app'
+                }
             }
         }
     }
