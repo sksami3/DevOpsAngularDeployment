@@ -17,7 +17,7 @@ pipeline {
                 script {
                     // Set the working directory to your Angular project directory
                     //dir('path/to/your/angular/app') {
-                        
+                        sh 'sudo systemctl start docker'
                         // Install project dependencies
                         sh 'docker build -t my-angular-app .'
 
